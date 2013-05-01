@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Sistema de SCGC </title>
+    </h:head>
+    <h:body>
+        <p:layout fullPage="true">
+            <p:layoutUnit position="north" size="150">
+                <center><h1>Sistema SCGC</h1></center>
+            </p:layoutUnit>
+            <p:layoutUnit position="west" size="200" rendered="true" collapsible="true" closable="true" resizable="true" header="Menu">
+                <h:form>
+                    <p:commandLink value="Novo Usuario" action="#{contatosController.prepararAdicionarContatos(actionEvent)}" onclick="dlgContatos.show()" />   
+                </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <h:form prependId="false"> 
+                    <p:dialog widgetVar="dlgContatos" resizable="false" header="Cadastro de Usuario" width="400" >
+
+                        <p:panelGrid columns="2">
+                            <h:outputText value="Nome: "/>  
+                            <p:inputText id="nome" value="#{contatosController.contatos.nome}"/>
+
+                            <h:outputText value="Email: "/>  
+                            <p:inputText id="email" value="#{contatosController.contatos.email}"/>
+
+                            <h:outputText value="Telefone: "/>  
+                            <p:inputText id="telefone" value="#{contatosController.contatos.telefone}"/>
+
+                            <h:outputText value="Celular: "/>  
+                            <p:inputText id="celular" value="#{contatosController.contatos.celular}"/>
+
+                            <p:commandButton value="Salvar" id="salva" actionListener="#{contatosController.adcionar(actionEvent)}"
+                                             update='contatos' oncomplete="dlgContatos.hide()"/>
+                        </p:panelGrid>
+                    </p:dialog>
+
+                    <p:dataTable id="contatos" value="#{contatosController.listaContatos}" var="contatos"> 
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nome"/>
+                            </f:facet>                             
+                            <h:outputText value="#{contatos.nome}"/>                            
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Email"/>
+                            </f:facet>                             
+                            <h:outputText value="#{contatos.email}"/>                            
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Telefone"/>
+                            </f:facet>                             
+                            <h:outputText value="#{contatos.telefone}"/>                            
+                        </p:column> 
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Celular"/>
+                            </f:facet>                             
+                            <h:outputText value="#{contatos.celular}"/>                            
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Excluir"/>
+                            </f:facet>                             
+                            <p:commandLink value="Excluir" action="#{contatosController.excluir()}" 
+                                           onclick="if(!confirm('Deseja excluir realmente o contato #{contatos.nome}? ')) return false;"
+                                           update="contatos"/>                            
+                        </p:column>
+                        
+                    </p:dataTable>
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</html>
